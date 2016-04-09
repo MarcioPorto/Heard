@@ -1,0 +1,43 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @report.address %>
+</p>
+
+<p>
+  <strong>Latitude:</strong>
+  <%= @report.latitude %>
+</p>
+
+<p>
+  <strong>Longitude:</strong>
+  <%= @report.longitude %>
+</p>
+
+<p>
+  <strong>Called 911:</strong>
+  <%= @report.called_911 %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @report.description %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @category.name %>
+</p>
+
+<%= image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=#{@report.latitude}%2C#{@report.longitude}" %>
+
+<h3>Nearby Locations</h3>
+<ul>
+  <% for report in @report.nearbys(10) %>
+    <li><%= link_to report.address, report %> (<%= report.distance.round(2) %>)</li>
+  <% end %>
+</ul>
+
+<%= link_to 'Edit', edit_report_path(@report) %> |
+<%= link_to 'Back', reports_path %>
