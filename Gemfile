@@ -58,5 +58,5 @@ end
 
 gem 'geocoder', '~> 1.3', '>= 1.3.1'
 gem 'simple_form'
-gem 'rails-api'
+# gem 'rails-api'
 gem 'rack-cors', '~> 0.3.1'
