@@ -4,7 +4,7 @@ class ReportsController < ApplicationController
   # GET /reports
   # GET /reports.json
   def index
-    @reports = Report.all
+    @reports = Report.where(blocked: false)
   end
 
   # GET /reports/1
@@ -15,19 +15,29 @@ class ReportsController < ApplicationController
 
   # GET /reports/new
   def new
-    @report = Report.new
-    @categories = Category.all
+    if BlockedAddress.find_by(ip_address: request.remote_ip)
+      redirect_to reports_path, notice: 'You are not allowed to create Reports anymore.'
+    else
+      @report = Report.new
+      @categories = Category.all
+    end
   end
 
   # GET /reports/1/edit
   def edit
-    @categories = Category.all
+    if BlockedAddress.find_by(ip_address: request.remote_ip)
+      redirect_to reports_path, notice: 'You are not allowed to edit Reports anymore.'
+    else
+      @categories = Category.all
+    end
   end
 
   # POST /reports
   # POST /reports.json
   def create
     @report = Report.new(report_params)
+    @report.ip_address = request.remote_ip
+    @report.save
 
     respond_to do |format|
       if @report.save
@@ -43,6 +53,14 @@ class ReportsController < ApplicationController
   # PATCH/PUT /reports/1
   # PATCH/PUT /reports/1.json
   def update
+    if @report.blocked == false
+      if @report.block_votes > 2
+        BlockedAddress.create(ip_address: @report.ip_address)
+        @report.blocked = true
+        @report.save
+      end
+    end
+
     respond_to do |format|
       if @report.update(report_params)
         format.html { redirect_to @report, notice: 'Report was successfully updated.' }
@@ -65,20 +83,23 @@ class ReportsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_report
-      @report = Report.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def report_params
-      params.require(:report).permit(
-        :address, 
-        :latitude, 
-        :longitude, 
-        :called_911, 
-        :description,
-        :category_id
-      )
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_report
+    @report = Report.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def report_params
+    params.require(:report).permit(
+      :address,
+      :latitude,
+      :longitude,
+      :called_911,
+      :description,
+      :category_id,
+      :blocked,
+      :block_votes
+    )
+  end
 end

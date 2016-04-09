@@ -6,4 +6,12 @@ class Report < ActiveRecord::Base
 
   reverse_geocoded_by :latitude, :longitude
   after_validation :reverse_geocode, :if => :longitude_changed? or :latitude_changed?
+
+  def block?
+    if self.block_votes == 3
+      return true
+    else
+      return false
+    end
+  end
 end

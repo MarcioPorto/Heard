@@ -11,18 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160409092242) do
+ActiveRecord::Schema.define(version: 20160409175212) do
 
-  create_table "categories", force: :cascade do |t|
-    t.string   "name"
+  create_table "blocked_addresses", force: :cascade do |t|
+    t.string   "ip_address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "locations", force: :cascade do |t|
-    t.string   "address"
-    t.float    "latitude"
-    t.float    "longitude"
+  create_table "categories", force: :cascade do |t|
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -31,11 +29,14 @@ ActiveRecord::Schema.define(version: 20160409092242) do
     t.string   "address"
     t.float    "latitude"
     t.float    "longitude"
-    t.boolean  "called_911"
+    t.boolean  "called_911",  default: false
     t.string   "description"
+    t.string   "ip_address",  default: ""
+    t.boolean  "blocked",     default: false
+    t.integer  "block_votes", default: 0
     t.integer  "category_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
 end
