@@ -9,7 +9,3 @@
 Category.create(name: 'Verbal Incident')
 Category.create(name: 'Physical Incident')
 Category.create(name: 'Other')
-
-# Location.create(address: 'Empire State Building, New York')
-# Location.create(address: 'Golden State Bridge, San Francisco')
-# Location.create(address: 'Times Square, New York City, NY')
