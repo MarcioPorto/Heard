@@ -26,15 +26,15 @@
         }
         
         $('#new_task').submit(function(e) {
-          $.post('/reports', $(this).serialize(), addTask);
+          // $.post('/reports', $(this).serialize(), addTask);
           
-          // var new_report = {
-          //   latitude: -7.013668,
-          //   longitude: -37.441406,
-          //   called_911: true,
-          //   description: "Something"
-          // };
-          // $.post('/reports', new_report.serialize(), addTask);
+          var new_report = {
+            latitude: -7.013668,
+            longitude: -37.441406,
+            called_911: true,
+            description: "Something"
+          };
+          $.post('/reports', new_report.serialize(), addTask);
           this.reset();
           e.preventDefault();
         });
@@ -43,20 +43,9 @@
         $.getJSON('/reports', function(reports) {
           $.each(reports, function() { 
             addTask(this); 
+            console.log(this);
           });
         });
-
-        // $.getJSON( '/reports', function( reports ) {
-        //   var items = [];
-        //   $.each(reports , function( key, val ) {
-        //     items.push( "<li id='" + key + "'>" + val + "</li>" );
-        //   });
-         
-        //   // $( "<ul/>", {
-        //   //   "class": "my-new-list",
-        //   //   html: items.join( "" )
-        //   // }).appendTo( "body" );
-        // });
 
       });
     </script>
