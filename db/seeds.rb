@@ -6,9 +6,9 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-Category.create(name: 'Verbal Incident')
-Category.create(name: 'Physical Incident')
-Category.create(name: 'Other')
+# Category.create(name: 'Verbal Incident')
+# Category.create(name: 'Physical Incident')
+# Category.create(name: 'Other')
 
 # Report.create(
 #   latitude: 42.37051599999999,
@@ -43,3 +43,21 @@ Category.create(name: 'Other')
 #   category_id: 3,
 #   ip_address: '::1'
 # )
+
+Answer.create(
+  content: 'Comment 1',
+  ip_address: 'lolololol',
+  report_id: 10
+)
+
+Answer.create(
+  content: 'Comment 2',
+  ip_address: 'lolololol',
+  report_id: 10
+)
+
+Answer.create(
+  content: 'Comment 3',
+  ip_address: 'lolololol',
+  report_id: 10
+)
