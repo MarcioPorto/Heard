@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: reports
+#
+#  id          :integer          not null, primary key
+#  address     :string
+#  latitude    :float
+#  longitude   :float
+#  called_911  :boolean          default(FALSE)
+#  description :string
+#  ip_address  :string           default("")
+#  blocked     :boolean          default(FALSE)
+#  block_votes :integer          default(0)
+#  category_id :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
 class ReportsController < ApplicationController
   before_action :set_report, only: [:show, :edit, :update, :destroy]
 
@@ -16,6 +34,8 @@ class ReportsController < ApplicationController
 
   # GET /reports/new
   def new
+    # If the IP address of the current user is in the BlockedAdresses table,
+    # we don't allow the user to create a new report
     if BlockedAddress.find_by(ip_address: request.remote_ip)
       respond_to do |format|
         format.html { redirect_to reports_path, notice: 'You are not allowed to create Reports anymore.' }
@@ -29,6 +49,8 @@ class ReportsController < ApplicationController
 
   # GET /reports/1/edit
   def edit
+    # If the IP address of the current user is in the BlockedAdresses table,
+    # we don't allow the user to edit a report
     if BlockedAddress.find_by(ip_address: request.remote_ip)
       respond_to do |format|
         format.html { redirect_to reports_path, notice: 'You are not allowed to edit Reports anymore.' }
@@ -43,6 +65,7 @@ class ReportsController < ApplicationController
   # POST /reports.json
   def create
     @report = Report.new(report_params)
+    # Stores the IP address of the current user to the report just created
     @report.ip_address = request.remote_ip
     @report.save
 
@@ -60,6 +83,8 @@ class ReportsController < ApplicationController
   # PATCH/PUT /reports/1
   # PATCH/PUT /reports/1.json
   def update
+    # The following adds a user's IP address to the BlockedAdresses database
+    # if a report posted by that user has been 'downvoted' 3 times
     if @report.blocked == false
       if @report.block_votes > 2
         BlockedAddress.create(ip_address: @report.ip_address)

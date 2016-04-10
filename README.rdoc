@@ -1,5 +1,5 @@
-== SAFE
+== Heard
 
-SAFE is an app created during CarlHacks 2016 that helps women report and log instances of sexism.
+Heard is an app created during CarlHacks 2016 that helps women report and log instances of sexism.
 
-This repository has the Rails API for the app, which was built using the Ionic framework.
+This repository has the Rails API for the app, which was built using the Ionic framework on the front-end.

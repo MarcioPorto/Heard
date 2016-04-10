@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: blocked_addresses
+#
+#  id         :integer          not null, primary key
+#  ip_address :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class BlockedAddressesController < ApplicationController
   before_action :set_blocked_address, only: [:show, :edit, :update, :destroy]
 

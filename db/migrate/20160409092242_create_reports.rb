@@ -10,9 +10,6 @@ class CreateReports < ActiveRecord::Migration
 
       t.boolean :blocked, default: false
       t.integer :block_votes, default: 0
-      # t.string :flag_ip_1, default: ''
-      # t.string :flag_ip_2, default: ''
-      # t.string :flag_ip_3, default: ''
 
       t.references :category
 

@@ -6,18 +6,19 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module SAFERails
+module Heard
   class Application < Rails::Application
+    # These next few config lines are to add functionality to our app that are
+    # taken away when Rails is in API mode
     config.api_only = true
     config.middleware.use ActionDispatch::Flash
-
     config.middleware.insert_before 0, "Rack::Cors" do
       allow do
         origins '*'
         resource '*', :headers => :any, :methods => [:get, :post, :options]
       end
     end
-    
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

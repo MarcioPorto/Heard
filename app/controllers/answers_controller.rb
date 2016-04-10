@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: answers
+#
+#  id         :integer          not null, primary key
+#  content    :text
+#  ip_address :string
+#  report_id  :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class AnswersController < ApplicationController
   before_action :set_answer, only: [:show, :edit, :update, :destroy]
 
@@ -14,6 +26,8 @@ class AnswersController < ApplicationController
 
   # GET /answers/new
   def new
+    # If the IP address of the current user is in the BlockedAdresses table,
+    # we don't allow the user to create a new answer
     if BlockedAddress.find_by(ip_address: request.remote_ip)
       respond_to do |format|
         format.html { redirect_to reports_path, notice: 'You are not allowed to create answers anymore.' }
@@ -26,6 +40,8 @@ class AnswersController < ApplicationController
 
   # GET /answers/1/edit
   def edit
+    # If the IP address of the current user is in the BlockedAdresses table,
+    # we don't allow the user to edit an answer
     if BlockedAddress.find_by(ip_address: request.remote_ip)
       respond_to do |format|
         format.html { redirect_to reports_path, notice: 'You are not allowed to edit answers anymore.' }
@@ -38,6 +54,7 @@ class AnswersController < ApplicationController
   # POST /answers.json
   def create
     @answer = Answer.new(answer_params)
+    # Stores the IP address of the current user to the answer just created
     @answer.ip_address = request.remote_ip
     @answer.save
 

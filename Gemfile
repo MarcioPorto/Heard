@@ -33,30 +33,32 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  # We are using SQLite in development and test mode
+  gem 'sqlite3'
 end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
+  gem 'spring'
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
 group :production do
+  # This is the setup necessary for hosting the database on Heroku
   gem 'pg'
   gem 'rails_12factor'
 end
 
-group :development, :test do
-  gem 'sqlite3'
-end
-
-group :development do
-  gem 'spring'
-end
-
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+# We are using the Geocoder gem to convert longitude and latitude values to
+# an address
 gem 'geocoder', '~> 1.3', '>= 1.3.1'
-gem 'simple_form'
+# simple_form is simply here for testing the app in development
+gem 'simple_form', '~> 3.2', '>= 3.2.1'
+# Rails requires this to operate in API mode
 gem 'rails-api'
+# Require to include the proper headers to make API calls
 gem 'rack-cors', '~> 0.3.1'
+# Used to annotate our models with our database schema
+gem 'annotate', '~> 2.7'
