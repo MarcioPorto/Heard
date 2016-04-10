@@ -10,35 +10,30 @@ Category.create(name: 'Verbal Incident')
 Category.create(name: 'Physical Incident')
 Category.create(name: 'Other')
 
-# Report.create(
-#   latitude: 42.37051599999999,
-#   longitude: -87.8517785,
-#   description: 'Hello World!',
-#   called_911: true,
-#   category_id: 1,
-#   ip_address: '123.45.67.89'
-# )
-# Report.create(
-#   latitude: 44.4582983,
-#   longitude: -93.161604,
-#   description: 'None',
-#   called_911: false,
-#   category_id: 2,
-#   ip_address: '987.65.43.21'
-# )
-#
-# Answer.create(
-#   content: 'Comment 1',
-#   ip_address: 'lolololol',
-#   report_id: 10
-# )
-# Answer.create(
-#   content: 'Comment 2',
-#   ip_address: 'lolololol',
-#   report_id: 10
-# )
-# Answer.create(
-#   content: 'Comment 3',
-#   ip_address: 'lolololol',
-#   report_id: 10
-# )
+Report.create(
+  latitude: 44.461267,
+  longitude: -93.156157,
+  description: 'Someone yelled at me from a car.',
+  called_911: false,
+  category_id: 1,
+  ip_address: '123.45.67.89'
+)
+Report.create(
+  latitude: 44.4582983,
+  longitude: -93.161604,
+  description: 'Someone followed me for a few blocks.',
+  called_911: false,
+  category_id: 3,
+  ip_address: '987.65.43.21'
+)
+
+Answer.create(
+  content: 'The same thing happened to me on that street.',
+  ip_address: '987.65.43.21',
+  report_id: 1
+)
+Answer.create(
+  content: "I'd never walk on that street alone.",
+  ip_address: '123.45.67.89',
+  report_id: 2
+)
