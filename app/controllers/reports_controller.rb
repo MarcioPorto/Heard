@@ -4,7 +4,7 @@ class ReportsController < ApplicationController
   # GET /reports
   # GET /reports.json
   def index
-    @reports = Report.where(blocked: false)
+    @reports = Report.where(blocked: false).sort_by(&:created_at).reverse
   end
 
   # GET /reports/1
