@@ -1,4 +1,5 @@
 class ReportsController < ApplicationController
+  include ActionController::MimeResponds
   before_action :set_report, only: [:show, :edit, :update, :destroy]
 
   # GET /reports
