@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
-  # include ActionController::RequestForgeryProtection
-  # protect_from_forgery with: :null_session
+  # This is the line that makes it work. Don't remove it!!!!!!!!!!
+  include ActionController::MimeResponds
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.

@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160409175212) do
+ActiveRecord::Schema.define(version: 20160410043107) do
+
+  create_table "answers", force: :cascade do |t|
+    t.text     "content"
+    t.string   "ip_address"
+    t.integer  "report_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "blocked_addresses", force: :cascade do |t|
     t.string   "ip_address"

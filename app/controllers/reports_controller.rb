@@ -1,5 +1,4 @@
 class ReportsController < ApplicationController
-  include ActionController::MimeResponds
   before_action :set_report, only: [:show, :edit, :update, :destroy]
 
   # GET /reports
@@ -12,12 +11,16 @@ class ReportsController < ApplicationController
   # GET /reports/1.json
   def show
     @category = Category.find_by(id: @report.category_id)
+    @answers = @report.answers
   end
 
   # GET /reports/new
   def new
     if BlockedAddress.find_by(ip_address: request.remote_ip)
-      redirect_to reports_path, notice: 'You are not allowed to create Reports anymore.'
+      respond_to do |format|
+        format.html { redirect_to reports_path, notice: 'You are not allowed to create Reports anymore.' }
+        format.json { render json: { status: 400, error: "You are not allowed to edit reports anymore." }.to_json }
+      end
     else
       @report = Report.new
       @categories = Category.all
@@ -27,7 +30,10 @@ class ReportsController < ApplicationController
   # GET /reports/1/edit
   def edit
     if BlockedAddress.find_by(ip_address: request.remote_ip)
-      redirect_to reports_path, notice: 'You are not allowed to edit Reports anymore.'
+      respond_to do |format|
+        format.html { redirect_to reports_path, notice: 'You are not allowed to edit Reports anymore.' }
+        format.json { render json: { status: 400, error: "You are not allowed to edit reports anymore." }.to_json }
+      end
     else
       @categories = Category.all
     end

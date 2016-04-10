@@ -69,6 +69,6 @@ class BlockedAddressesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def blocked_address_params
-      params.require(:blocked_address).permit(:ip_address)
+      params.permit(:ip_address)
     end
 end

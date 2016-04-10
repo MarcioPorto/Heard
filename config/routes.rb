@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root 'reports#index'
+  resources :answers
   resources :blocked_addresses
   resources :reports
   resources :categories
