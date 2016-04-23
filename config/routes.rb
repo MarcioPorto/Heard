@@ -35,65 +35,29 @@
 #                      PUT    /categories/:id(.:format)             categories#update
 #                      DELETE /categories/:id(.:format)             categories#destroy
 #
+require 'api_constraints'
 
 Rails.application.routes.draw do
+  # API definition
+  namespace :api, defaults: { format: :json } do
+    # The constraints are setting the default API version to 1
+    scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
+      resources :answers, only: [:index, :show, :create, :update, :destroy]
+      # resources :blocked_addresses, only: [:index, :show, :create, :update, :destroy]
+      resources :reports, only: [:index, :show, :create, :update, :destroy] do
+        member do
+          put 'upvote' => 'reports#upvote'
+          put 'downvote' => 'reports#downvote'
+        end
+      end
+      # resources :categories, only: [:index, :show, :create, :update, :destroy]
+    end
+  end
+
+  # These resources serve our website, not the API:
   root 'reports#index'
   resources :answers
   resources :blocked_addresses
   resources :reports
   resources :categories
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
-
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
 end

@@ -8,17 +8,6 @@ Bundler.require(*Rails.groups)
 
 module Heard
   class Application < Rails::Application
-    # These next few config lines are to add functionality to our app that are
-    # taken away when Rails is in API mode
-    config.api_only = true
-    config.middleware.use ActionDispatch::Flash
-    config.middleware.insert_before 0, "Rack::Cors" do
-      allow do
-        origins '*'
-        resource '*', :headers => :any, :methods => [:get, :post, :options]
-      end
-    end
-
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -30,6 +19,20 @@ module Heard
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+
+    # RSpec Config: won't generate tests for views and helpers
+    config.generators do |g|
+      g.test_framework :rspec, fixture: true
+      g.fixture_replacement :factory_girl, dir: 'spec/factories'
+      g.view_specs false
+      g.helper_specs false
+      g.stylesheets = false
+      g.javascripts = false
+      g.helper = false
+    end
+
+    config.autoload_paths += %W(\#{config.root}/lib)
+    config.autoload_paths += %W(\#{config.root}/config/initializers)
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true

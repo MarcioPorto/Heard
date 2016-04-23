@@ -14,3 +14,8 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym 'RESTful'
 # end
+
+# Allows our module name to be all uppercase
+ActiveSupport::Inflector.inflections(:en) do |inflect|
+  inflect.acronym 'API'
+end
