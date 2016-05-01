@@ -16,8 +16,9 @@
 #  updated_at  :datetime         not null
 #
 class API::V1::ReportsController < ApplicationController
+  before_filter :authenticate!
   before_action :set_report, only: [:show, :update, :destroy, :upvote, :downvote] # :edit
-  # load_and_authorize_resource # CanCanCan helper
+  load_and_authorize_resource # CanCanCan helper
   respond_to :json
 
   # GET /reports
@@ -31,34 +32,29 @@ class API::V1::ReportsController < ApplicationController
     @answers = @report.answers
   end
 
-  # GET /reports/new
-  def new
-    # If the IP address of the current user is in the BlockedAdresses table,
-    # we don't allow the user to create a new report
-    if BlockedAddress.find_by(ip_address: request.remote_ip)
-      render json: { status: 400, error: 'You are not allowed to edit reports anymore.' }.to_json
-    else
-      @report = Report.new
-      @categories = Category.all
-    end
-  end
+  # # GET /reports/new
+  # def new
+  #   if BlockedPhoneNumber.find_by(phone_number: current_user.phone_number)
+  #     render json: { status: 400, error: 'You are not allowed to edit reports anymore.' }.to_json
+  #   else
+  #     @report = Report.new
+  #     @categories = Category.all
+  #   end
+  # end
 
-  # GET /reports/1/edit
-  def edit
-    # If the IP address of the current user is in the BlockedAdresses table,
-    # we don't allow the user to edit a report
-    if BlockedAddress.find_by(ip_address: request.remote_ip)
-      render json: { status: 400, error: 'You are not allowed to edit reports anymore.' }.to_json
-    else
-      @categories = Category.all
-    end
-  end
+  # # GET /reports/1/edit
+  # def edit
+  #   if BlockedPhoneNumber.find_by(phone_number: current_user.phone_number)
+  #     render json: { status: 400, error: 'You are not allowed to edit reports anymore.' }.to_json
+  #   else
+  #     @categories = Category.all
+  #   end
+  # end
 
   # POST /reports
   def create
     @report = Report.new(report_params)
-    # Stores the IP address of the current user to the report just created
-    @report.ip_address = request.remote_ip
+    @report.user_id = current_user.id
     @report.save
 
     if @report.save
@@ -70,15 +66,7 @@ class API::V1::ReportsController < ApplicationController
 
   # PATCH/PUT /reports/1
   def update
-    # The following adds a user's IP address to the BlockedAdresses database
-    # if a report posted by that user has been 'downvoted' 3 times
-    if @report.blocked == false
-      if @report.block_votes > 2
-        BlockedAddress.create(ip_address: @report.ip_address)
-        @report.blocked = true
-        @report.save
-      end
-    end
+    block_user_if_needed
 
     if @report.update(report_params)
       render :show, status: :ok, location: [:api, @report]

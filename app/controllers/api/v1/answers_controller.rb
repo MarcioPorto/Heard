@@ -10,8 +10,9 @@
 #  updated_at :datetime         not null
 #
 class API::V1::AnswersController < ApplicationController
+  before_filter :authenticate!
   before_action :set_answer, only: [:show, :update, :destroy] # :edit
-  # load_and_authorize_resource # CanCanCan helper
+  load_and_authorize_resource # CanCanCan helper
   respond_to :json
 
   # GET /answers
@@ -23,31 +24,10 @@ class API::V1::AnswersController < ApplicationController
   def show
   end
 
-  # # GET /answers/new
-  # def new
-  #   # If the IP address of the current user is in the BlockedAdresses table,
-  #   # we don't allow the user to create a new answer
-  #   if BlockedAddress.find_by(ip_address: request.remote_ip)
-  #     render json: { status: 400, error: 'You are not allowed to create answers anymore.' }.to_json
-  #   else
-  #     @answer = Answer.new
-  #   end
-  # end
-
-  # # GET /answers/1/edit
-  # def edit
-  #   # If the IP address of the current user is in the BlockedAdresses table,
-  #   # we don't allow the user to edit an answer
-  #   if BlockedAddress.find_by(ip_address: request.remote_ip)
-  #     render json: { status: 400, error: 'You are not allowed to edit answers anymore.' }.to_json
-  #   end
-  # end
-
   # POST /answers
   def create
     @answer = Answer.new(answer_params)
-    # Stores the IP address of the current user to the answer just created
-    @answer.ip_address = request.remote_ip
+    @answer.user_id = current_user.id
     @answer.save
 
     if @answer.save

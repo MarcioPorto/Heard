@@ -11,20 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160501015727) do
+ActiveRecord::Schema.define(version: 20160501021049) do
 
   create_table "answers", force: :cascade do |t|
-    t.text     "content"
-    t.string   "ip_address"
+    t.text     "content",    default: ""
     t.integer  "report_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
-  create_table "blocked_addresses", force: :cascade do |t|
-    t.string   "ip_address"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "blocked_phone_numbers", force: :cascade do |t|
+    t.string   "phone_number"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "categories", force: :cascade do |t|
@@ -39,10 +39,10 @@ ActiveRecord::Schema.define(version: 20160501015727) do
     t.float    "longitude"
     t.boolean  "called_911",  default: false
     t.string   "description"
-    t.string   "ip_address",  default: ""
     t.boolean  "blocked",     default: false
     t.integer  "block_votes", default: 0
     t.integer  "category_id"
+    t.integer  "user_id"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
   end

@@ -15,11 +15,11 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
-
 class Report < ActiveRecord::Base
-  # acts_as_votable
+  acts_as_votable
   belongs_to :category
-  has_many :answers, :dependent => :destroy
+  belongs_to :user
+  has_many :answers, dependent: :destroy
 
   # geocoded_by :address
   # after_validation :geocode, :if => :address_changed?

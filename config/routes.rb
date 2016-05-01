@@ -43,21 +43,31 @@ Rails.application.routes.draw do
     # The constraints are setting the default API version to 1
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
       resources :answers, only: [:index, :show, :create, :update, :destroy]
-      # resources :blocked_addresses, only: [:index, :show, :create, :update, :destroy]
+      resources :categories, only: [:index, :show, :create, :update, :destroy]
       resources :reports, only: [:index, :show, :create, :update, :destroy] do
         member do
           put 'upvote' => 'reports#upvote'
           put 'downvote' => 'reports#downvote'
         end
       end
-      # resources :categories, only: [:index, :show, :create, :update, :destroy]
+      resources :users, only: [:create]
+      # Sessions
+      resources :sessions, only: [:create]
+      get 'sessions/destroy'
+      # get 'sessions/two_factor'
+
+      # Authy
+      post 'authy/callback' => 'authy#callback'
+      get 'authy/status' => 'authy#one_touch_status'
+      post 'authy/send_token'
+      post 'authy/verify'
     end
   end
 
   # These resources serve our website, not the API:
   root 'reports#index'
   resources :answers
-  resources :blocked_addresses
   resources :reports
   resources :categories
+  resources :blocked_phone_numbers, except: [:new, :edit]
 end

@@ -6,12 +6,11 @@ class CreateReports < ActiveRecord::Migration
       t.float :longitude
       t.boolean :called_911, default: false
       t.string :description
-      t.string :ip_address, default: ''
 
       t.boolean :blocked, default: false
-      t.integer :block_votes, default: 0
 
       t.references :category
+      t.references :user
 
       t.timestamps null: false
     end

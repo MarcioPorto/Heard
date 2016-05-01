@@ -8,6 +8,7 @@
 
 Category.create(name: 'Verbal Incident')
 Category.create(name: 'Physical Incident')
+Category.create(name: 'Systemic Incident')
 Category.create(name: 'Other')
 
 Report.create(

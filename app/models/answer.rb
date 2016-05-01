@@ -9,7 +9,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-
 class Answer < ActiveRecord::Base
   belongs_to :report
+  belongs_to :user
 end
