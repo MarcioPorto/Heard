@@ -22,7 +22,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -36,6 +36,8 @@ group :development, :test do
   # Testing
   gem 'factory_girl_rails'
   gem 'ffaker'
+  # Autoload dotenv in Rails.
+  gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
 end
 
 group :development do
@@ -44,6 +46,8 @@ group :development do
   # Spring speeds up development by keeping your application running in the background.
   # Read more: https://github.com/rails/spring
   gem 'spring'
+  # Mocha for mocking
+  gem 'mocha'
 end
 
 group :test do
@@ -75,3 +79,8 @@ gem 'annotate', '~> 2.7'
 gem 'cancancan', '~> 1.10'
 # Upvote/downvote functionality
 gem 'acts_as_votable', '~> 0.10.0'
+
+# Puma webserver
+gem 'puma'
+# Use Authy for 2FA
+gem 'authy', git: 'https://github.com/authy/authy-ruby.git'
